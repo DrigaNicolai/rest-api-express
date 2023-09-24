@@ -1,4 +1,5 @@
 const express = require('express');
+const router = require("./api/routes/index");
 
 require('dotenv').config();
 
@@ -7,6 +8,7 @@ const PORT = process.env.SERVER_PORT || 3000;
 const app = express();
 
 app.use(express.json());
+app.use("/", router);
 
 const start = () => {
   try {
@@ -17,4 +19,4 @@ const start = () => {
 }
 
 start();
-require("./database").init();
+// require("./database").init();
