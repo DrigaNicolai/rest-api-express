@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon app.js",
     "migrate": "cd database && npx sequelize db:migrate",
-    "migrate:undo": "cd database && npx sequelize db:migrate:undo"
+    "migrate:undo": "cd database && npx sequelize db:migrate:undo",
+    "seed": "cd database && npx sequelize db:seed:all",
+    "seed:undo": "cd database && npx sequelize db:seed:undo"
   },
   "author": "Driga Nicolai",
   "license": "ISC",
