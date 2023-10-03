@@ -1,5 +1,6 @@
 const express = require('express');
 const router = require("./api/routes/index");
+const validationMiddleware = require("./api/middleware/validationMiddleware.js");
 
 require('dotenv').config();
 
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/", router);
+app.use(validationMiddleware);
 
 const start = () => {
   try {
