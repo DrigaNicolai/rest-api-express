@@ -1,0 +1,13 @@
+components:
+  schemas:
+    UnprocessableEntity:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string

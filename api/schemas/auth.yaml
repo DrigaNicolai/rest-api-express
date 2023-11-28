@@ -1,0 +1,70 @@
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: test@testmail.com
+        password:
+          type: string
+          format: password
+          example: testpassword
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJ0ZXN0QHRlc3RtYWlsLmNvbSIsImlhdCI6MTcwMTE3ODE4OCwiZXhwIjoxNzAxMTgxNzg4fQ.RcsjY_TImXXWeW9dvPUU83Udk31KYWvR6v_5OPwlbT4
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 5
+            name:
+              type: string
+              example: Test
+            email:
+              type: string
+              example: test@testmail.com
+
+    LoginUnauthorized:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User authentication failed
+
+    RegistrationRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: "Username"
+        email:
+          type: string
+          format: email
+          example: username@gmail.com
+        password:
+          type: string
+          format: password
+          example: 123456789
+
+    RegistrationResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User was successfuly created with id = 1         
+    
