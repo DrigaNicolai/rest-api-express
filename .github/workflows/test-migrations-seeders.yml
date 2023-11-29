@@ -32,7 +32,7 @@ jobs:
         run: npm install
       
       - name: Run migrations in test environment
-        run: npm run migrate:test
+        run: npx sequelize db:migrate --env test
       
       - name: Run seeders in test environment
-        run: npm run seed:test
+        run: npx sequelize db:seed:all --env test
