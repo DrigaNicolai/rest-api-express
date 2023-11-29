@@ -32,7 +32,10 @@ jobs:
         run: npm install
       
       - name: Run migrations in test environment
-        run: npx sequelize db:migrate --env test
+        run: npm run migrate:test
+
+      - name: Debug - Show tables after migrations
+        run: npx sequelize db:showAllTables --env test
       
       - name: Run seeders in test environment
-        run: npx sequelize db:seed:all --env test
+        run: npm run seed:test
