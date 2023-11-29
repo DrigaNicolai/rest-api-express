@@ -43,7 +43,7 @@ jobs:
 
       - name: Check database existence
         run: |
-          result=$(echo "SHOW TABLES" | mysql -h 127.0.0.1 -P 3306 -u root rest_api_express_test | grep roles)
+          result=$(echo "SHOW TABLES" | mysql -h 127.0.0.1 -P 3306 -u root --password=$MYSQL_ROOT_PASSWORD rest_api_express_test | grep roles)
           echo "Result: $result"
           if [ -n "$result" ]; then
             echo "Table 'roles' exists."
