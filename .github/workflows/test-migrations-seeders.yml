@@ -43,7 +43,13 @@ jobs:
 
       - name: Check database existence
         run: |
-          echo "SHOW TABLES LIKE 'roles'" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test
+          result=$(echo "SHOW TABLES" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test | grep roles)
+          echo "Result: $result"
+          if [ -n "$result" ]; then
+            echo "Table 'roles' exists."
+          else
+            echo "Table 'roles' does not exist."
+          fi
 
       - name: Debug - Show tables after migrations
         run: cd database && npx sequelize-cli db:migrate:status --env test
