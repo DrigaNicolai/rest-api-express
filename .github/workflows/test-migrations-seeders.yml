@@ -37,13 +37,16 @@ jobs:
       
       - name: Install dependencies
         run: npm install
-      
+
+      - name: Debug - Show tables before migrations
+        run: cd database && npx sequelize-cli db:migrate:status --env test
+
       - name: Run migrations in test environment
         run: npm run migrate:test
 
       - name: Check database existence
         run: |
-          result=$(echo "SHOW TABLES" | mysql -h 127.0.0.1 -P 3306 -u root --password=$MYSQL_ROOT_PASSWORD rest_api_express_test | grep roles)
+          result=$(echo "SHOW TABLES LIKE 'roles'" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test | grep roles)
           echo "Result: $result"
           if [ -n "$result" ]; then
             echo "Table 'roles' exists."
