@@ -35,7 +35,7 @@ jobs:
         run: npm run migrate:test
 
       - name: Debug - Show tables after migrations
-        run: npx sequelize db:showAllTables --env test
+        run: npx sequelize-cli db:migrate:status --env test
       
       - name: Run seeders in test environment
         run: npm run seed:test
