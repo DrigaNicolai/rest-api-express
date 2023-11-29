@@ -43,7 +43,7 @@ jobs:
 
       - name: Check database existence
         run: |
-          echo "SHOW TABLES LIKE 'roles'" | mysql -h localhost -u root --password=rootpassword rest_api_express_test
+          echo "SHOW TABLES LIKE 'roles'" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test
 
       - name: Debug - Show tables after migrations
         run: cd database && npx sequelize-cli db:migrate:status --env test
