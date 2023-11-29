@@ -38,25 +38,34 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Debug - Show tables before migrations
-        run: cd database && npx sequelize-cli db:migrate:status --env test
-
-      - name: Run migrations in test environment
-        run: npm run migrate:test
-
-      - name: Check database existence
+      # - name: Debug - Show tables before migrations
+      #   run: cd database && npx sequelize-cli db:migrate:status --env test
+      - name: Check database tables before migrations
         run: |
-          result=$(echo "SHOW TABLES LIKE 'roles'" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test | grep roles) || true
-          echo "Result: $result"
-          if [ -n "$result" ]; then
-            echo "Table 'roles' exists."
-          else
-            echo "Table 'roles' does not exist."
-            exit 0
-          fi
+          mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test
 
-      - name: Debug - Show tables after migrations
-        run: cd database && npx sequelize-cli db:migrate:status --env test
+      - name: Run migrations in test environment with debug
+        run: |
+          cd database
+          npx sequelize-cli db:migrate --env test --debug
+      
+      - name: Check database tables after migrations
+        run: |
+          mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test
+
+      # - name: Check database existence
+      #   run: |
+      #     result=$(echo "SHOW TABLES LIKE 'roles'" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test | grep roles) || true
+      #     echo "Result: $result"
+      #     if [ -n "$result" ]; then
+      #       echo "Table 'roles' exists."
+      #     else
+      #       echo "Table 'roles' does not exist."
+      #       exit 0
+      #     fi
+
+      # - name: Debug - Show tables after migrations
+      #   run: cd database && npx sequelize-cli db:migrate:status --env test
       
       - name: Run seeders in test environment
         run: npm run seed:test
