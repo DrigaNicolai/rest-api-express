@@ -20,6 +20,13 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
     
     steps:
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in $(seq 1 30); do
+            nc -z localhost 3306 && break
+            sleep 5
+          done
+
       - name: Checkout repository
         uses: actions/checkout@v2
       
@@ -33,6 +40,10 @@ jobs:
       
       - name: Run migrations in test environment
         run: npm run migrate:test
+
+      - name: Check database existence
+        run: |
+          echo "SHOW TABLES LIKE 'roles'" | mysql -h localhost -u root --password=rootpassword rest_api_express_test
 
       - name: Debug - Show tables after migrations
         run: cd database && npx sequelize-cli db:migrate:status --env test
