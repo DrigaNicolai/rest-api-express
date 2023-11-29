@@ -6,10 +6,10 @@ const roles = require("../../data/seeders/roles-seeders.json");
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("roles", roles, {});
+    await queryInterface.bulkInsert("Roles", roles, {});
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('roles', null, {});
+    await queryInterface.bulkDelete('Roles', null, {});
   }
 };
