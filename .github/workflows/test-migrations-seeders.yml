@@ -53,16 +53,16 @@ jobs:
         run: |
           mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test
 
-      # - name: Check database existence
-      #   run: |
-      #     result=$(echo "SHOW TABLES LIKE 'roles'" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test | grep roles) || true
-      #     echo "Result: $result"
-      #     if [ -n "$result" ]; then
-      #       echo "Table 'roles' exists."
-      #     else
-      #       echo "Table 'roles' does not exist."
-      #       exit 0
-      #     fi
+      - name: Check database existence
+        run: |
+          result=$(echo "SHOW TABLES LIKE 'Roles'" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test | grep Roles) || true
+          echo "Result: $result"
+          if [ -n "$result" ]; then
+            echo "Table 'roles' exists."
+          else
+            echo "Table 'roles' does not exist."
+            exit 0
+          fi
 
       # - name: Debug - Show tables after migrations
       #   run: cd database && npx sequelize-cli db:migrate:status --env test
