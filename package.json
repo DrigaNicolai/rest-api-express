@@ -8,7 +8,11 @@
     "migrate": "cd database && npx sequelize db:migrate",
     "migrate:undo": "cd database && npx sequelize db:migrate:undo",
     "seed": "cd database && npx sequelize db:seed:all",
-    "seed:undo": "cd database && npx sequelize db:seed:undo"
+    "seed:undo": "cd database && npx sequelize db:seed:undo",
+    "migrate:test": "cd database && npx sequelize db:migrate --env test",
+    "migrate:test:undo": "cd database && npx sequelize db:migrate:undo --env test",
+    "seed:test": "cd database && npx sequelize db:seed:all --env test",
+    "seed:test:undo": "cd database && npx sequelize db:seed:undo --env test"
   },
   "author": "Driga Nicolai",
   "license": "ISC",
