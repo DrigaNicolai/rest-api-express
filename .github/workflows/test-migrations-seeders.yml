@@ -14,18 +14,18 @@ jobs:
         image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: rest_api_express_test
+          MYSQL_DATABASE: rest_api_express_test_git
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
     
     steps:
-      - name: Wait for MySQL to be ready
-        run: |
-          for i in $(seq 1 30); do
-            nc -z localhost 3306 && break
-            sleep 5
-          done
+      # - name: Wait for MySQL to be ready
+      #   run: |
+      #     for i in $(seq 1 30); do
+      #       nc -z localhost 3306 && break
+      #       sleep 5
+      #     done
 
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -46,9 +46,7 @@ jobs:
           mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test
 
       - name: Run migrations in test environment
-        run: |
-          cd database
-          npx sequelize-cli db:migrate --env test
+        run: npm run migrate:test_git
       
       - name: Check database tables after migrations
         run: |
@@ -69,4 +67,4 @@ jobs:
       #   run: cd database && npx sequelize-cli db:migrate:status --env test
       
       - name: Run seeders in test environment
-        run: npm run seed:test
+        run: npm run seed:test_git
