@@ -1,0 +1,70 @@
+name: Migration and Seeder check (test env)
+
+on:
+  push:
+    branches:
+      - feature/SeparateDBs
+
+jobs:
+  migrate-check:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: rest_api_express_test_git
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+    
+    steps:
+      # - name: Wait for MySQL to be ready
+      #   run: |
+      #     for i in $(seq 1 30); do
+      #       nc -z localhost 3306 && break
+      #       sleep 5
+      #     done
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Debug - Show tables before migrations
+      #   run: cd database && npx sequelize-cli db:migrate:status --env test
+      
+      - name: Check database tables before migrations
+        run: |
+          mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test_git
+
+      - name: Run migrations in test environment
+        run: npm run migrate:test_git
+      
+      - name: Check database tables after migrations
+        run: |
+          mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test_git
+
+      # - name: Check database existence
+      #   run: |
+      #     result=$(echo "SHOW TABLES LIKE 'Roles'" | mysql -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test | grep Roles) || true
+      #     echo "Result: $result"
+      #     if [ -n "$result" ]; then
+      #       echo "Table 'roles' exists."
+      #     else
+      #       echo "Table 'roles' does not exist."
+      #       exit 0
+      #     fi
+
+      # - name: Debug - Show tables after migrations
+      #   run: cd database && npx sequelize-cli db:migrate:status --env test
+      
+      - name: Run seeders in test environment
+        run: npm run seed:test_git
