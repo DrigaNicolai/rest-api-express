@@ -16,7 +16,8 @@ const options = {
       }
     ],
     tags: [
-      { name: "Auth" }
+      { name: "Auth" },
+      { name: "Warning Types" }
     ],
     components: {
       securitySchemes: {
