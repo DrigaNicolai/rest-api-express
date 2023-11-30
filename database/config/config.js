@@ -9,16 +9,18 @@ const config = {
     "dialect": process.env.DB_DIALECT
   },
   "test": {
-    /* "username": process.env.DB_USER,
+    "username": process.env.DB_USER,
     "password": process.env.DB_PASSWORD,
     "database": process.env.DB_NAME_TEST,
     "host": process.env.DB_HOST,
-    "dialect": process.env.DB_DIALECT */
-    username: 'root',
-    password: 'rootpassword',
-    database: process.env.DB_NAME_TEST,
-    host: 'localhost',
-    dialect: process.env.DB_DIALECT
+    "dialect": process.env.DB_DIALECT
+  },
+  "test_git": {
+    username: "root",
+    password: "rootpassword",
+    database: "rest_api_express_test_git",
+    host: "localhost",
+    dialect: "mysql"
   }
 }
 
