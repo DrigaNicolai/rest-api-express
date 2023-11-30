@@ -1,7 +1,10 @@
 const Router = require("express");
 const registrationValidationRules = require("../validators/auth/RegistationValidation");
-const authContoller = require("../controllers/authController");
 const loginValidationRules = require("../validators/auth/LoginValidation");
+const authContoller = require("../controllers/authController");
+
+const multer = require("multer");
+const upload = multer();
 
 const router = new Router();
 
@@ -14,7 +17,7 @@ const router = new Router();
  *     description: Register a new user
  *     requestBody:
  *       content:
- *         application/x-www-form-urlencoded:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/RegistrationRequest'
  *     responses:
@@ -33,7 +36,8 @@ const router = new Router();
  * 
  */
 router.post(
-  '/register', 
+  '/register',
+  upload.none(),
   registrationValidationRules,
   authContoller.register
 );
@@ -47,7 +51,7 @@ router.post(
  *     description: Login as existent user
  *     requestBody:
  *       content:
- *         application/x-www-form-urlencoded:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/LoginRequest'
  *     responses:
@@ -73,6 +77,7 @@ router.post(
  */
 router.post(
   '/login',
+  upload.none(), 
   loginValidationRules,
   authContoller.login
 );
