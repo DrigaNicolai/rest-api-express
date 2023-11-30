@@ -8,7 +8,7 @@ class AuthContoller {
     try {
       res.status(201).json(await authService.register(req.body));
     } catch (e) {
-      res.status(422).json({message: 'Registration error'});
+      res.status(422).json({message: 'Registration error', errors: e});
     }
   }
 
@@ -17,13 +17,13 @@ class AuthContoller {
       const { email, password } = req.body;
       const user = await userService.findByEmail(email);
 
-      if (!user) {
+/*       if (!user) {
         res.status(404).json({message: `User with email ${email} was not found`});
-      }
+      } */
 
       const validPassword = bcrypt.compareSync(password, user.password);
 
-      if (!validPassword) {
+      if (!validPassword || !user) {
         return res.status(401).json({message: `User authentication failed`});
       }
 
@@ -41,7 +41,7 @@ class AuthContoller {
         }
       );
     } catch (e) {
-      res.status(422).json({message: 'Login error'});
+      res.status(422).json({ message: 'Login error', errors: e });
     }
   }
 }
