@@ -1,5 +1,17 @@
 components:
   schemas:
+    ItemsList:
+      type: array
+      items:
+        type: object
+        properties:
+          value:
+            type: integer
+            example: 1
+          text:
+            type: string
+            example: Name
+
     UnprocessableEntity:
       type: object
       properties:
@@ -11,3 +23,46 @@ components:
             type: array
             items:
               type: string
+
+    BadRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Request error: something went wrong"
+
+    Forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User is not authenticated
+    
+    NotFound:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Entity(ies) not found
+
+  responses:
+    BadRequestErrorResponse:
+      description: Error while sending request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequest'
+
+    UserUnauthorizedErrorResponse:
+      description: User is not unauthorized / authenticated
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Forbidden'
+    
+    UnprocessableEntityErrorResponse:
+      description: Request validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnprocessableEntity'
