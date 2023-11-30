@@ -43,14 +43,14 @@ jobs:
       
       - name: Check database tables before migrations
         run: |
-          mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test
+          mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test_git
 
       - name: Run migrations in test environment
         run: npm run migrate:test_git
       
       - name: Check database tables after migrations
         run: |
-          mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test
+          mysqlshow -h 127.0.0.1 -P 3306 -u root --password=rootpassword rest_api_express_test_git
 
       # - name: Check database existence
       #   run: |
