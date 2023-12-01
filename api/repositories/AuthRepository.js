@@ -6,11 +6,8 @@ class AuthRepository {
     try {
       const [insertedId, _] = await sequelize.query(
         `
-          INSERT INTO users
-          SET
-            name = '${item.name}',
-            email = '${item.email}',
-            password = '${item.password}';
+          INSERT INTO users (name, email, password)
+          VALUES ('${item.name}', '${item.email}', '${item.password}');
         `,
         { type: QueryTypes.INSERT }
       );
