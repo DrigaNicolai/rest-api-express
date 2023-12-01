@@ -18,9 +18,9 @@ app.use(authMiddleware);
 
 swaggerDocs(app);
 
-const start = () => {
+const start = async () => {
   try {
-    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+    await app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
   } catch (e) {
     console.log(e);
   }
@@ -28,3 +28,5 @@ const start = () => {
 
 start();
 // require("./database").init();
+
+module.exports = app;
