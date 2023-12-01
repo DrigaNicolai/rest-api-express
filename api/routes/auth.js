@@ -27,12 +27,10 @@ const router = new Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/RegistrationResponse'
+ *       400:
+ *         $ref: '#/components/responses/BadRequestErrorResponse'
  *       422:
- *         description: User registration failed (request validation error)
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UnprocessableEntity'
+ *         $ref: '#/components/responses/UnprocessableEntityErrorResponse'
  * 
  */
 router.post(
@@ -61,6 +59,8 @@ router.post(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/LoginResponse'
+ *       400:
+ *         $ref: '#/components/responses/BadRequestErrorResponse'
  *       401:
  *         description: User authentication failed
  *         content:
@@ -68,11 +68,7 @@ router.post(
  *             schema:
  *               $ref: '#/components/schemas/LoginUnauthorized'
  *       422:
- *         description: User authentication failed (request validation error)
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UnprocessableEntity'
+ *         $ref: '#/components/responses/UnprocessableEntityErrorResponse'
  * 
  */
 router.post(

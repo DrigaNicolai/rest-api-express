@@ -8,7 +8,7 @@ class AuthContoller {
     try {
       res.status(201).json(await authService.register(req.body));
     } catch (e) {
-      res.status(422).json({message: 'Registration error', errors: e});
+      res.status(400).json({message: `Registration error: ${JSON.stringify(e)}`});
     }
   }
 
@@ -27,7 +27,7 @@ class AuthContoller {
         return res.status(401).json({message: `User authentication failed`});
       }
 
-      const token = generateAccessToken(user.id, user.role, user.email);
+      const token = generateAccessToken(user.id, user.role_name, user.email);
 
       res.status(200).json(
         { 
@@ -35,13 +35,13 @@ class AuthContoller {
           user: {
             id: user.id,
             name: user.name,
-            role: user.role,
-            email: user.email
+            email: user.email,
+            role: user.role_name
           } 
         }
       );
     } catch (e) {
-      res.status(422).json({ message: 'Login error', errors: e });
+      res.status(400).json({ message: `Login error: ${JSON.stringify(e)}`});
     }
   }
 }

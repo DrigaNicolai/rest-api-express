@@ -1,0 +1,63 @@
+components:
+  entities:
+    warning-type:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Warning type name
+        points_number:
+          type: integer
+          example: 5
+        createdAt:
+          type: string
+          example: "2023-11-30T11:00:00.000Z"
+        updatedAt:
+          type: string
+          example: "2023-11-30T11:00:00.000Z"
+
+  schemas:
+    WarningTypeId:
+      name: warning_type
+      in: path
+      description: Warning type `id`
+      required: true
+      schema:
+        type: integer
+        example: 1
+    
+    CreateWarningTypeRequest:
+      type: object
+      required:
+        - name
+        - points_number
+      properties:
+        name:
+          type: string
+          example: Warning type name
+        points_number:
+          type: integer
+          example: 1
+    
+    CreateEditWarningTypeResponse:
+      $ref: '#/components/entities/warning-type'
+
+    CatalogWarningTypeResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/entities/warning-type'
+    
+  responses:
+    WarningTypeNotFound:
+      description: Warning type(s) not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFound'
+
