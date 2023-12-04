@@ -15,8 +15,9 @@
     "seed:test:undo": "cd database && npx sequelize db:seed:undo --env test",
     "migrate:test_git": "cd database && npx sequelize db:migrate --env test_git",
     "seed:test_git": "cd database && npx sequelize db:seed:all --env test_git",
-    "test": "cross-env NODE_ENV=test jest",
-    "test:auth": "cross-env NODE_ENV=test jest auth.test.js"
+    "test": "cross-env NODE_ENV=test jest --verbose",
+    "test:auth": "cross-env NODE_ENV=test jest auth.test.js --verbose",
+    "test:warning-types": "cross-env NODE_ENV=test jest warning-types.test.js --verbose"
   },
   "author": "Driga Nicolai",
   "license": "ISC",
