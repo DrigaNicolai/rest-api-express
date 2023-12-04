@@ -1,23 +1,18 @@
 const request = require('supertest');
 const app = require('../app');
 
-// let registrationResponse;
-
-// beforeAll(async () => {
-//   startTime = Date.now();
-//   registrationResponse = await request(app)
-//     .post('/auth/register')
-//     .send({ name: "Test2 name", email: "test2@gmail.com", password: "123456qwerty" });
-// });
-
 describe("Registration Tests", () => {
   let registrationResponse;
+  let startTime;
 
   beforeAll(async () => {
     startTime = Date.now();
     registrationResponse = await request(app)
       .post('/auth/register')
-      .send({ name: "Test6 name", email: "test6@gmail.com", password: "123456qwerty" });
+      .set('Content-Type', 'multipart/form-data')
+      .field('name', 'Test15 name')
+      .field('email', 'test15@gmail.com')
+      .field('password', '123456qwerty');
   });
 
   it('should return a 201 status code', () => {
