@@ -6,7 +6,11 @@ const swaggerDocs = require("./utils/swagger.js");
 
 require('dotenv').config();
 
-const PORT = process.env.SERVER_PORT || 3000;
+let PORT = process.env.SERVER_PORT || 3000;
+
+if (process.env.NODE_ENV == "test") {
+  PORT = Math.floor(Math.random()*60000)+5000;
+}
 
 const app = express();
 
@@ -18,9 +22,9 @@ app.use(authMiddleware);
 
 swaggerDocs(app);
 
-const start = () => {
+const start = async () => {
   try {
-    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+    await app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
   } catch (e) {
     console.log(e);
   }
@@ -28,3 +32,5 @@ const start = () => {
 
 start();
 // require("./database").init();
+
+module.exports = app;

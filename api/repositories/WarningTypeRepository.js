@@ -35,6 +35,24 @@ class WarningTypeRepository {
     }
   }
 
+  async findByName(name) {
+    try {
+      const [entity] = await sequelize.query(
+        `
+          SELECT *
+          FROM WarningTypes
+          WHERE name = '${name}';
+        `,
+        { type: QueryTypes.SELECT }
+      );
+
+      return entity;
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+    }
+  }
+
   async create(item) {
     try {
       const [insertedId, _] = await sequelize.query(
@@ -61,7 +79,8 @@ class WarningTypeRepository {
           UPDATE WarningTypes
           SET
             name = '${item.name}',
-            points_number = '${item.points_number}'
+            points_number = '${item.points_number}',
+            updatedAt = CURRENT_TIMESTAMP
           WHERE id = '${id}';
         `,
         { type: QueryTypes.UPDATE }

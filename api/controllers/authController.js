@@ -6,6 +6,14 @@ const { generateAccessToken } = require("../../utils/token");
 class AuthContoller {
   async register(req, res) {
     try {
+      const user = await userService.findByEmail(req.body.email);
+
+      if (user) {
+        res.status(422).json({message: `User with this email already exists`});
+        
+        return;
+      }
+
       res.status(201).json(await authService.register(req.body));
     } catch (e) {
       res.status(400).json({message: `Registration error: ${JSON.stringify(e)}`});

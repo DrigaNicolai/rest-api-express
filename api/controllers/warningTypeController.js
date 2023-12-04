@@ -19,6 +19,14 @@ class WarningTypeController {
 
   async create(req, res) {
     try {
+      const warningType = await warningTypeService.findByName(req.body.name);
+
+      if (warningType) {
+        res.status(422).json({message: `Warning type with this name already exists`});
+        
+        return;
+      }
+
       res.status(201).json(await warningTypeService.create(req.body));
     } catch (e) {
       res.status(400).json({message: `Create warning type error: ${JSON.stringify(e)}`});

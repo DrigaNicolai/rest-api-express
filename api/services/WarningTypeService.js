@@ -9,6 +9,10 @@ class WarningTypeService {
     return await warningTypeRepository.getOne(id);
   }
 
+  async findByName(name) {
+    return await warningTypeRepository.findByName(name);
+  }
+
   async create(item) {
     return await warningTypeRepository.create(item);
   }
