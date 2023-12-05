@@ -2,11 +2,22 @@ const authService = require("../services/AuthService");
 const userService = require("../services/UserService");
 const bcrypt = require('bcryptjs');
 const { generateAccessToken } = require("../../utils/token");
+const {
+  RegistrationRequestDTO,
+  RegistrationResponseDTO,
+  LoginRequestDTO,
+  LoginResponseDTO
+} = require("../DTO/auth/authDTO");
 
 class AuthContoller {
   async register(req, res) {
     try {
-      const user = await userService.findByEmail(req.body.email);
+      const registrationRequest = new RegistrationRequestDTO(
+        req.body.name,
+        req.body.email,
+        req.body.password,
+      );
+      const user = await userService.findByEmail(registrationRequest.email);
 
       if (user) {
         res.status(422).json({message: `User with this email already exists`});
@@ -14,7 +25,9 @@ class AuthContoller {
         return;
       }
 
-      res.status(201).json(await authService.register(req.body));
+      const response = await authService.register(registrationRequest);
+
+      res.status(201).json(new RegistrationResponseDTO(response.message));
     } catch (e) {
       res.status(400).json({message: `Registration error: ${JSON.stringify(e)}`});
     }
@@ -22,8 +35,9 @@ class AuthContoller {
 
   async login(req, res) {
     try {
-      const { email, password } = req.body;
-      const user = await userService.findByEmail(email);
+      const loginRequest = new LoginRequestDTO(req.body.email, req.body.password);
+      const { email, password } = loginRequest;
+      const user = await userService.findByEmail(loginRequest.email);
 
 /*       if (!user) {
         res.status(404).json({message: `User with email ${email} was not found`});
@@ -36,18 +50,17 @@ class AuthContoller {
       }
 
       const token = generateAccessToken(user.id, user.role_name, user.email);
+      const response = { 
+        token, 
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role_name
+        } 
+      };
 
-      res.status(200).json(
-        { 
-          token, 
-          user: {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role_name
-          } 
-        }
-      );
+      res.status(200).json(new LoginResponseDTO(response.token, response.user));
     } catch (e) {
       res.status(400).json({ message: `Login error: ${JSON.stringify(e)}`});
     }
