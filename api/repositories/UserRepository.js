@@ -16,8 +16,8 @@ class UserRepository {
 
       return user;
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`UserRepository Error: ${e.message}`);
     }
   }
 }

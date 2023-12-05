@@ -2,31 +2,66 @@ const warningTypeRepository = require("../repositories/WarningTypeRepository");
 
 class WarningTypeService {
   async getAll() {
-    return await warningTypeRepository.getAll();
+    try {
+      return await warningTypeRepository.getAll();
+    } catch (e) {
+      console.error(e);
+      throw new Error(`WarningTypeService Error: ${e.message}`);
+    }
   }
 
   async getOne(id) {
-    return await warningTypeRepository.getOne(id);
+    try {
+      return await warningTypeRepository.getOne(id);
+    } catch (e) {
+      console.error(e);
+      throw new Error(`WarningTypeService Error: ${e.message}`);
+    }
   }
 
   async findByName(name) {
-    return await warningTypeRepository.findByName(name);
+    try {
+      return await warningTypeRepository.findByName(name);
+    } catch (e) {
+      console.error(e);
+      throw new Error(`WarningTypeService Error: ${e.message}`);
+    }
   }
 
   async create(item) {
-    return await warningTypeRepository.create(item);
+    try {
+      return await warningTypeRepository.create(item);
+    } catch (e) {
+      console.error(e);
+      throw new Error(`WarningTypeService Error: ${e.message}`);
+    }
   }
 
   async update(id, item) {
-    return await warningTypeRepository.update(id, item);
+    try {
+      return await warningTypeRepository.update(id, item);
+    } catch (e) {
+      console.error(e);
+      throw new Error(`WarningTypeService Error: ${e.message}`);
+    }
   }
 
   async delete(id) {
-    return await warningTypeRepository.delete(id);
+    try {
+      return await warningTypeRepository.delete(id);
+    } catch (e) {
+      console.error(e);
+      throw new Error(`WarningTypeService Error: ${e.message}`);
+    }
   }
 
   async getList() {
-    return await warningTypeRepository.getList();
+    try {
+      return await warningTypeRepository.getList();
+    } catch (e) {
+      console.error(e);
+      throw new Error(`WarningTypeService Error: ${e.message}`);
+    }
   }
 };
 

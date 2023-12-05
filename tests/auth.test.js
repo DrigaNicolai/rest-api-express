@@ -10,8 +10,8 @@ describe("Registration Tests", () => {
     registrationResponse = await request(app)
       .post('/auth/register')
       .set('Content-Type', 'multipart/form-data')
-      .field('name', 'Test15 name')
-      .field('email', 'test15@gmail.com')
+      .field('name', 'Test16 name')
+      .field('email', 'test16@gmail.com')
       .field('password', '123456qwerty');
   });
 

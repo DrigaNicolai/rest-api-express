@@ -12,8 +12,8 @@ class WarningTypeRepository {
         { type: QueryTypes.SELECT }
       );
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`WarningTypeRepository Error: ${e.message}`);
     }
   }
 
@@ -30,8 +30,8 @@ class WarningTypeRepository {
 
       return entity;
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`WarningTypeRepository Error: ${e.message}`);
     }
   }
 
@@ -48,8 +48,8 @@ class WarningTypeRepository {
 
       return entity;
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`WarningTypeRepository Error: ${e.message}`);
     }
   }
 
@@ -67,8 +67,8 @@ class WarningTypeRepository {
 
       return await this.getOne(insertedId);
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`WarningTypeRepository Error: ${e.message}`);
     }
   }
 
@@ -88,8 +88,8 @@ class WarningTypeRepository {
 
       return await this.getOne(id);
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`WarningTypeRepository Error: ${e.message}`);
     }
   }
 
@@ -105,8 +105,8 @@ class WarningTypeRepository {
 
       return {message: "Warning type was successfully deleted"}
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`WarningTypeRepository Error: ${e.message}`);
     }
   }
 
@@ -123,8 +123,8 @@ class WarningTypeRepository {
 
       return list;
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`WarningTypeRepository Error: ${e.message}`);
     }
   }
 }
