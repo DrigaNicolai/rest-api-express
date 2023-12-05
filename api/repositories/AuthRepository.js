@@ -14,8 +14,8 @@ class AuthRepository {
 
       return {message: `User was successfuly created with id = ${insertedId}`};
     } catch (e) {
-      console.log(e);
-      res.status(500).json({message: `Internal error, ${JSON.stringify(e)}`});
+      console.error(e);
+      throw new Error(`AuthRepository Error: ${e.message}`);
     }
   }
 }
