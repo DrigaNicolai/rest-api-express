@@ -51,8 +51,8 @@ describe("Create WarningType Tests", () => {
       .post('/warning-types')
       .set('Authorization', `Bearer ${authToken}`)
       .set('Content-Type', 'multipart/form-data')
-      .field('name', 'Test name 9')
-      .field('points_number', '9');
+      .field('name', 'Test name 10')
+      .field('points_number', '1');
   });
 
   it('should return a 201 status code', () => {
@@ -83,7 +83,7 @@ describe("Get one WarningType Tests", () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .get('/warning-types/8')
+      .get('/warning-types/9')
       .set('Authorization', `Bearer ${authToken}`);
   });
 
@@ -135,7 +135,7 @@ describe("Update WarningType Tests", () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .put('/warning-types/8')
+      .put('/warning-types/9')
       .set('Authorization', `Bearer ${authToken}`)
       .send({ name: "Test name EDITED", points_number: 3 });
   });
@@ -173,7 +173,7 @@ describe("Delete WarningType Tests", () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .delete('/warning-types/8')
+      .delete('/warning-types/9')
       .set('Authorization', `Bearer ${authToken}`);
   });
 
