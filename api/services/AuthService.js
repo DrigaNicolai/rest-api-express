@@ -3,11 +3,16 @@ const bcrypt = require('bcryptjs');
 
 class AuthService {
   async register(item) {
-    const { password } = item;
+    try {
+      const { password } = item;
 
-    const hashPassword = bcrypt.hashSync(password, 7);
-
-    return await authRepository.register({ ...item, password: hashPassword });
+      const hashPassword = bcrypt.hashSync(password, 7);
+  
+      return await authRepository.register({ ...item, password: hashPassword });
+    } catch (e) {
+      console.error(e);
+      throw new Error(`AuthService Error: ${e.message}`);
+    }
   }
 };
 
