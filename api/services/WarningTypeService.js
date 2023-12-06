@@ -37,9 +37,9 @@ class WarningTypeService {
     }
   }
 
-  async update(id, item) {
+  async update(item) {
     try {
-      return await warningTypeRepository.update(id, item);
+      return await warningTypeRepository.update(item);
     } catch (e) {
       console.error(e);
       throw new Error(`WarningTypeService Error: ${e.message}`);

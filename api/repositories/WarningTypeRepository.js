@@ -72,7 +72,7 @@ class WarningTypeRepository {
     }
   }
 
-  async update(id, item) {
+  async update(item) {
     try {
       await sequelize.query(
         `
@@ -81,12 +81,12 @@ class WarningTypeRepository {
             name = '${item.name}',
             points_number = '${item.points_number}',
             updatedAt = CURRENT_TIMESTAMP
-          WHERE id = '${id}';
+          WHERE id = '${item.id}';
         `,
         { type: QueryTypes.UPDATE }
       );
 
-      return await this.getOne(id);
+      return await this.getOne(item.id);
     } catch (e) {
       console.error(e);
       throw new Error(`WarningTypeRepository Error: ${e.message}`);
