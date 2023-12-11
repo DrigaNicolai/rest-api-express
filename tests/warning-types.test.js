@@ -6,7 +6,7 @@ let authToken;
 beforeAll(async () => {
   const loginResponse = await request(app)
     .post('/auth/login')
-    .send({ email: "root@gmail.com", password: "123456789" });
+    .send({ email: "root@gmail.com", password: "123456qwerty" });
 
   
   authToken = loginResponse.body.token;
@@ -28,10 +28,10 @@ describe("Catalog WarningTypes Tests", () => {
   it('response is an array of objects with specific properties', () => {
     const responseData = response.body;
 
-    expect(responseData).toBeInstanceOf(Array);
-    expect(responseData).not.toHaveLength(0);
+    expect(responseData.items).toBeInstanceOf(Array);
+    expect(responseData.items).not.toHaveLength(0);
     
-    responseData.forEach((warningType) => {
+    responseData.items.forEach((warningType) => {
       expect(warningType).toHaveProperty('id');
       expect(warningType).toHaveProperty('name');
       expect(warningType).toHaveProperty('points_number');
@@ -51,8 +51,8 @@ describe("Create WarningType Tests", () => {
       .post('/warning-types')
       .set('Authorization', `Bearer ${authToken}`)
       .set('Content-Type', 'multipart/form-data')
-      .field('name', 'Test name 10')
-      .field('points_number', '1');
+      .field('name', 'Test name 3')
+      .field('points_number', '3');
   });
 
   it('should return a 201 status code', () => {
@@ -83,7 +83,7 @@ describe("Get one WarningType Tests", () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .get('/warning-types/9')
+      .get('/warning-types/2')
       .set('Authorization', `Bearer ${authToken}`);
   });
 
@@ -135,7 +135,7 @@ describe("Update WarningType Tests", () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .put('/warning-types/9')
+      .put('/warning-types/2')
       .set('Authorization', `Bearer ${authToken}`)
       .send({ name: "Test name EDITED", points_number: 3 });
   });
@@ -173,7 +173,7 @@ describe("Delete WarningType Tests", () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .delete('/warning-types/9')
+      .delete('/warning-types/2')
       .set('Authorization', `Bearer ${authToken}`);
   });
 

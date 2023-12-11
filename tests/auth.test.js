@@ -10,8 +10,8 @@ describe("Registration Tests", () => {
     registrationResponse = await request(app)
       .post('/auth/register')
       .set('Content-Type', 'multipart/form-data')
-      .field('name', 'Test16 name')
-      .field('email', 'test16@gmail.com')
+      .field('name', 'Test4 name')
+      .field('email', 'test4@gmail.com')
       .field('password', '123456qwerty');
   });
 
@@ -49,7 +49,7 @@ describe("Login Tests", () => {
   beforeAll(async () => {
     loginResponse = await request(app)
       .post('/auth/login')
-      .send({ email: "test4@gmail.com", password: "123456qwerty" });
+      .send({ email: "root@gmail.com", password: "123456qwerty" });
   });
 
   it('should return a 200 status code', () => {
