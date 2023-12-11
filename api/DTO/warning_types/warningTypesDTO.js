@@ -14,10 +14,12 @@ class EditWarningTypeRequestDTO {
 }
 
 class WarningTypeResponseDTO {
-  constructor(id, name, points_number) {
-    this.id = id;
-    this.name = name;
-    this.points_number = points_number;
+  constructor(warningType) {
+    this.id = warningType.id;
+    this.name = warningType.name;
+    this.points_number = warningType.points_number;
+    this.createdAt = warningType.createdAt;
+    this.updatedAt = warningType.updatedAt;
   }
 }
 
@@ -27,6 +29,8 @@ class WarningTypeCatalogResponseDTO {
       id: warningType.id,
       name: warningType.name,
       points_number: warningType.points_number,
+      createdAt: warningType.createdAt,
+      updatedAt: warningType.updatedAt
     }));
   }
 }
