@@ -6,6 +6,7 @@ const {
   globalLimiterMiddleware,
   userLimiterMiddleware
 } = require("./api/middleware/rateLimitMiddleware.js");
+const corsMiddleware = require("./api/middleware/corsMiddleware.js");
 const swaggerDocs = require("./utils/swagger.js");
 
 require('dotenv').config();
@@ -23,6 +24,7 @@ app.use(express.json());
 
 app.use(globalLimiterMiddleware);
 app.use(userLimiterMiddleware);
+app.use(corsMiddleware);
 
 app.use("/", router);
 
