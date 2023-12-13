@@ -87,7 +87,6 @@ class WarningTypeController {
   async getList(req, res) {
     try {
       const warningTypesList = await warningTypeService.getList();
-      console.log(warningTypesList);
 
       res.status(200).json(new ListResponseDTO(warningTypesList));
     } catch (e) {
