@@ -17,7 +17,8 @@
     "seed:test_git": "cd database && npx sequelize db:seed:all --env test_git",
     "test": "cross-env NODE_ENV=test jest --verbose",
     "test:auth": "cross-env NODE_ENV=test jest auth.test.js --verbose",
-    "test:warning-types": "cross-env NODE_ENV=test jest warning-types.test.js --verbose"
+    "test:warning-types": "cross-env NODE_ENV=test jest warning-types.test.js --verbose",
+    "test:tags": "cross-env NODE_ENV=test jest tags.test.js --verbose"
   },
   "author": "Driga Nicolai",
   "license": "ISC",
