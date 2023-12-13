@@ -6,7 +6,7 @@ let authToken;
 beforeAll(async () => {
   const loginResponse = await request(app)
     .post('/auth/login')
-    .send({ email: "root@gmail.com", password: "123456qwerty" });
+    .send({ email: "root@gmail.com", password: "123456789" }); // pc: 123456789; laptop: 123456qwerty
 
   
   authToken = loginResponse.body.token;
