@@ -49,7 +49,7 @@ describe("Login Tests", () => {
   beforeAll(async () => {
     loginResponse = await request(app)
       .post('/auth/login')
-      .send({ email: "root@gmail.com", password: "123456qwerty" });
+      .send({ email: "root@gmail.com", password: "123456789" }); // pc: 123456789; laptop: 123456qwerty
   });
 
   it('should return a 200 status code', () => {

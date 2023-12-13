@@ -8,8 +8,10 @@ beforeAll(async () => {
     .post('/auth/login')
     .send({ email: "root@gmail.com", password: "123456789" }); // pc: 123456789; laptop: 123456qwerty
 
-  
   authToken = loginResponse.body.token;
+
+  console.log(loginResponse.body);
+  console.log(authToken, "auth token");
 });
 
 describe("Catalog WarningTypes Tests", () => {
@@ -17,7 +19,7 @@ describe("Catalog WarningTypes Tests", () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .get('/warning-types')
+      .get('/tags')
       .set('Authorization', `Bearer ${authToken}`);
   });
 
@@ -34,38 +36,38 @@ describe("Catalog WarningTypes Tests", () => {
     responseData.items.forEach((warningType) => {
       expect(warningType).toHaveProperty('id');
       expect(warningType).toHaveProperty('name');
-      expect(warningType).toHaveProperty('points_number');
+      expect(warningType).toHaveProperty('description');
       expect(warningType).toHaveProperty('createdAt');
       expect(warningType).toHaveProperty('updatedAt');
     });
   });
 });
 
-describe("Create WarningType Tests", () => {
+describe("Create Tag Tests", () => {
   let response;
   let startTime;
 
   beforeAll(async () => {
     startTime = Date.now();
     response = await request(app)
-      .post('/warning-types')
+      .post('/tags')
       .set('Authorization', `Bearer ${authToken}`)
       .set('Content-Type', 'multipart/form-data')
-      .field('name', 'Test name 3')
-      .field('points_number', '3');
+      .field('name', 'test_tag_third')
+      .field('description', 'Description for the test_tag 3');
   });
 
   it('should return a 201 status code', () => {
    expect(response.statusCode).toBe(201);
   });
 
-  it('response is an object with id, name, points_number, createdAt, and updatedAt properties', () => {
+  it('response is an object with id, name, description, createdAt, and updatedAt properties', () => {
     const responseData = response.body;
     
     expect(responseData).toBeInstanceOf(Object);
     expect(responseData).toHaveProperty('id');
     expect(responseData).toHaveProperty('name');
-    expect(responseData).toHaveProperty('points_number');
+    expect(responseData).toHaveProperty('description');
     expect(responseData).toHaveProperty('createdAt');
     expect(responseData).toHaveProperty('updatedAt');
   });
@@ -78,12 +80,12 @@ describe("Create WarningType Tests", () => {
   });
 });
 
-describe("Get one WarningType Tests", () => {
+describe("Get one Tag Tests", () => {
   let response;
 
   beforeAll(async () => {
     response = await request(app)
-      .get('/warning-types/2')
+      .get('/tags/3')
       .set('Authorization', `Bearer ${authToken}`);
   });
 
@@ -91,13 +93,13 @@ describe("Get one WarningType Tests", () => {
     expect(response.statusCode).toBe(200);
   });
 
-  it('response is an object with id, name, points_number, createdAt, and updatedAt properties', () => {
+  it('response is an object with id, name, description, createdAt, and updatedAt properties', () => {
     const responseData = response.body;
 
     expect(responseData).toBeInstanceOf(Object);
     expect(responseData).toHaveProperty('id');
     expect(responseData).toHaveProperty('name');
-    expect(responseData).toHaveProperty('points_number');
+    expect(responseData).toHaveProperty('description');
     expect(responseData).toHaveProperty('createdAt');
     expect(responseData).toHaveProperty('updatedAt');
   });
@@ -108,7 +110,7 @@ describe("Get WarningTypes List Tests", () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .get('/warning-types/list')
+      .get('/tags/list')
       .set('Authorization', `Bearer ${authToken}`);
   });
 
@@ -130,27 +132,32 @@ describe("Get WarningTypes List Tests", () => {
   });
 });
 
-describe("Update WarningType Tests", () => {
+describe("Update Tag Tests", () => {
   let response;
 
   beforeAll(async () => {
     response = await request(app)
-      .put('/warning-types/2')
+      .put('/tags/3')
       .set('Authorization', `Bearer ${authToken}`)
-      .send({ name: "Test name EDITED", points_number: 3 });
+      .send(
+        { 
+          name: "test_tag_third_edited", 
+          description: "Description for the test_tag 3 edited"
+        }
+      );
   });
 
   it('response status code is 200', () => {
     expect(response.statusCode).toBe(200);
   });
 
-  it('response is an object with id, name, points_number, createdAt, and updatedAt properties', () => {
+  it('response is an object with id, name, description, createdAt, and updatedAt properties', () => {
     const responseData = response.body;
 
     expect(responseData).toBeInstanceOf(Object);
     expect(responseData).toHaveProperty('id');
     expect(responseData).toHaveProperty('name');
-    expect(responseData).toHaveProperty('points_number');
+    expect(responseData).toHaveProperty('description');
     expect(responseData).toHaveProperty('createdAt');
     expect(responseData).toHaveProperty('updatedAt');
   });
@@ -168,12 +175,12 @@ describe("Update WarningType Tests", () => {
   });
 });
 
-describe("Delete WarningType Tests", () => {
+describe("Delete Tag Tests", () => {
   let response;
 
   beforeAll(async () => {
     response = await request(app)
-      .delete('/warning-types/2')
+      .delete('/tags/3')
       .set('Authorization', `Bearer ${authToken}`);
   });
 
