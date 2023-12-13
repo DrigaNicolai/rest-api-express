@@ -1,0 +1,63 @@
+components:
+  entities:
+    tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Tag name
+        description:
+          type: string
+          example: Tag description
+        createdAt:
+          type: string
+          example: "2023-12-13T11:00:00.000Z"
+        updatedAt:
+          type: string
+          example: "2023-12-13T11:00:00.000Z"
+  
+  schemas:
+    TagId:
+      name: tag
+      in: path
+      description: Tag `id`
+      required: true
+      shema:
+        type: integer
+        example: 1
+
+    CreateTagRequest:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          example: Tag name
+        description:
+          type: string
+          example: Tag description
+    
+    CreateEditTagResponse:
+      $ref: '#/components/entities/tag'
+    
+    CatalogTagResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/entities/tag'
+    
+  responses:
+    TagNotFound:
+      description: Tag(s) not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFound'
+
