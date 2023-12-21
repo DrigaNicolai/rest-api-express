@@ -5,7 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Tag extends Model {
     static associate(models) {
-      // define association here
+      Tag.hasMany(models.Post);
     }
   }
   Tag.init(
