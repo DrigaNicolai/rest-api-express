@@ -1,0 +1,109 @@
+components:
+  entities:
+    postData:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        author:
+          type: string
+          example: Author
+        title:
+          type: string
+          example: Title example
+        text:
+          type: string
+          example: Text example
+        tag:
+          type: string
+          example: Tag name
+        createdAt:
+          type: string
+          example: "2023-01-08T12:00:00.000Z"
+        updatedAt:
+          type: string
+          example: "2023-01-08T12:00:00.000Z"
+
+    postCreateEdit:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        author_id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Title example
+        text:
+          type: string
+          example: Text example
+        tag_id:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: "2023-01-08T12:00:00.000Z"
+        updatedAt:
+          type: string
+          example: "2023-01-08T12:00:00.000Z"
+
+  schemas:
+    PostId:
+      name: post
+      in: path
+      description: Post `id`
+      required: true
+      schema:
+        type: integer
+        example: 1
+    
+    CreatePostRequest:
+      type: object
+      required:
+        - title
+        - text
+        - tag_id
+      properties:
+        title:
+          type: string
+          example: Title example
+        text:
+          type: string
+          example: Text example
+        tag_id:
+          type: integer
+          example: 1
+    
+    CreateEditPostResponse:
+      $ref: '#/components/entities/postCreateEdit'
+    
+    CatalogPostResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/entities/postData'
+  
+  responses:
+    PostNotFound:
+      description: Post(s) not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFound'
+    
+    WrongPostAuthor:
+      description: Wrong post author
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Post's author is different from current user
+        

@@ -15,7 +15,9 @@ const authMiddleware = (req, res, next) => {
         return res.status(403).json({message: "User is not authenticated"});
       }
   
-      verifyToken(token);
+      const decodedData = verifyToken(token);
+
+      req.user = decodedData;
     }
   
     next();

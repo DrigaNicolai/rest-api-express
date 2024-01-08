@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../app');
 
 let authToken;
+let authorId;
 
 beforeAll(async () => {
   const loginResponse = await request(app)
@@ -9,15 +10,15 @@ beforeAll(async () => {
     .send({ email: "root@gmail.com", password: "123456789" }); // pc: 123456789; laptop: 123456qwerty
 
   authToken = loginResponse.body.token;
+  authorId = loginResponse.body.user.id;
 });
 
-describe("Catalog Tags Tests", () => {
+describe("Catalog Posts Tests", () => {
   let response;
 
   beforeAll(async () => {
     response = await request(app)
-      .get('/tags')
-      .set('Authorization', `Bearer ${authToken}`);
+      .get('/posts');
   });
 
   it('should return a 200 status code', () => {
@@ -30,41 +31,47 @@ describe("Catalog Tags Tests", () => {
     expect(responseData.items).toBeInstanceOf(Array);
     expect(responseData.items).not.toHaveLength(0);
     
-    responseData.items.forEach((tag) => {
-      expect(tag).toHaveProperty('id');
-      expect(tag).toHaveProperty('name');
-      expect(tag).toHaveProperty('description');
-      expect(tag).toHaveProperty('createdAt');
-      expect(tag).toHaveProperty('updatedAt');
+    responseData.items.forEach((post) => {
+      expect(post).toHaveProperty('id');
+      expect(post).toHaveProperty('author');
+      expect(post).toHaveProperty('title');
+      expect(post).toHaveProperty('text');
+      expect(post).toHaveProperty('tag');
+      expect(post).toHaveProperty('createdAt');
+      expect(post).toHaveProperty('updatedAt');
     });
   });
 });
 
-describe("Create Tag Tests", () => {
+describe("Create Post Tests", () => {
   let response;
   let startTime;
 
   beforeAll(async () => {
     startTime = Date.now();
     response = await request(app)
-      .post('/tags')
+      .post('/posts')
       .set('Authorization', `Bearer ${authToken}`)
       .set('Content-Type', 'multipart/form-data')
-      .field('name', 'test_tag_third')
-      .field('description', 'Description for the test_tag 3');
+      .field('author_id', authorId)
+      .field('title', 'Test title 3')
+      .field('text', 'Test text third')
+      .field('tag_id', 1);
   });
 
   it('should return a 201 status code', () => {
    expect(response.statusCode).toBe(201);
   });
 
-  it('response is an object with id, name, description, createdAt, and updatedAt properties', () => {
+  it('response is an object with id, author_id, title, text, tag_id createdAt, and updatedAt properties', () => {
     const responseData = response.body;
     
     expect(responseData).toBeInstanceOf(Object);
     expect(responseData).toHaveProperty('id');
-    expect(responseData).toHaveProperty('name');
-    expect(responseData).toHaveProperty('description');
+    expect(responseData).toHaveProperty('author_id');
+    expect(responseData).toHaveProperty('title');
+    expect(responseData).toHaveProperty('text');
+    expect(responseData).toHaveProperty('tag_id');
     expect(responseData).toHaveProperty('createdAt');
     expect(responseData).toHaveProperty('updatedAt');
   });
@@ -77,38 +84,12 @@ describe("Create Tag Tests", () => {
   });
 });
 
-describe("Get one Tag Tests", () => {
+describe("Catalog User Posts Tests", () => {
   let response;
 
   beforeAll(async () => {
     response = await request(app)
-      .get('/tags/3')
-      .set('Authorization', `Bearer ${authToken}`);
-  });
-
-  it('should return a 200 status code', () => {
-    expect(response.statusCode).toBe(200);
-  });
-
-  it('response is an object with id, name, description, createdAt, and updatedAt properties', () => {
-    const responseData = response.body;
-
-    expect(responseData).toBeInstanceOf(Object);
-    expect(responseData).toHaveProperty('id');
-    expect(responseData).toHaveProperty('name');
-    expect(responseData).toHaveProperty('description');
-    expect(responseData).toHaveProperty('createdAt');
-    expect(responseData).toHaveProperty('updatedAt');
-  });
-});
-
-describe("Get WarningTypes List Tests", () => {
-  let response;
-
-  beforeAll(async () => {
-    response = await request(app)
-      .get('/tags/list')
-      .set('Authorization', `Bearer ${authToken}`);
+      .get(`/posts/user/${authorId}`);
   });
 
   it('should return a 200 status code', () => {
@@ -118,28 +99,61 @@ describe("Get WarningTypes List Tests", () => {
   it('response is an array of objects with specific properties', () => {
     const responseData = response.body;
 
-    expect(responseData).toBeInstanceOf(Array);
-    expect(responseData).not.toHaveLength(0);
-
-    responseData.forEach((item) => {
-      expect(item).toBeInstanceOf(Object);
-      expect(item).toHaveProperty('value');
-      expect(item).toHaveProperty('text');
+    expect(responseData.items).toBeInstanceOf(Array);
+    expect(responseData.items).not.toHaveLength(0);
+    
+    responseData.items.forEach((post) => {
+      expect(post).toHaveProperty('id');
+      expect(post).toHaveProperty('author');
+      expect(post).toHaveProperty('title');
+      expect(post).toHaveProperty('text');
+      expect(post).toHaveProperty('tag');
+      expect(post).toHaveProperty('createdAt');
+      expect(post).toHaveProperty('updatedAt');
     });
   });
 });
 
-describe("Update Tag Tests", () => {
+describe("Get one Post Tests", () => {
   let response;
 
   beforeAll(async () => {
     response = await request(app)
-      .put('/tags/3')
+      .get('/posts/6')
+      .set('Authorization', `Bearer ${authToken}`);
+  });
+
+  it('should return a 200 status code', () => {
+    expect(response.statusCode).toBe(200);
+  });
+
+  it('response is an object with id, author_id, title, text, tag_id, createdAt, and updatedAt properties', () => {
+    const responseData = response.body;
+
+    expect(responseData).toBeInstanceOf(Object);
+    expect(responseData).toHaveProperty('id');
+    expect(responseData).toHaveProperty('author_id');
+    expect(responseData).toHaveProperty('title');
+    expect(responseData).toHaveProperty('text');
+    expect(responseData).toHaveProperty('tag_id');
+    expect(responseData).toHaveProperty('createdAt');
+    expect(responseData).toHaveProperty('updatedAt');
+  });
+});
+
+describe("Update Post Tests", () => {
+  let response;
+
+  beforeAll(async () => {
+    response = await request(app)
+      .put('/posts/6')
       .set('Authorization', `Bearer ${authToken}`)
       .send(
-        { 
-          name: "test_tag_third_edited", 
-          description: "Description for the test_tag 3 edited"
+        {
+          author_id: authorId,
+          title: "Edited title",
+          text: "Edited text",
+          tag_id: 2
         }
       );
   });
@@ -148,13 +162,15 @@ describe("Update Tag Tests", () => {
     expect(response.statusCode).toBe(200);
   });
 
-  it('response is an object with id, name, description, createdAt, and updatedAt properties', () => {
+  it('response is an object with id, author_id, title, text, tag_id createdAt, and updatedAt properties', () => {
     const responseData = response.body;
-
+    
     expect(responseData).toBeInstanceOf(Object);
     expect(responseData).toHaveProperty('id');
-    expect(responseData).toHaveProperty('name');
-    expect(responseData).toHaveProperty('description');
+    expect(responseData).toHaveProperty('author_id');
+    expect(responseData).toHaveProperty('title');
+    expect(responseData).toHaveProperty('text');
+    expect(responseData).toHaveProperty('tag_id');
     expect(responseData).toHaveProperty('createdAt');
     expect(responseData).toHaveProperty('updatedAt');
   });
@@ -172,12 +188,12 @@ describe("Update Tag Tests", () => {
   });
 });
 
-describe("Delete Tag Tests", () => {
+describe("Delete Post Tests", () => {
   let response;
 
   beforeAll(async () => {
     response = await request(app)
-      .delete('/tags/3')
+      .delete('/posts/6')
       .set('Authorization', `Bearer ${authToken}`);
   });
 

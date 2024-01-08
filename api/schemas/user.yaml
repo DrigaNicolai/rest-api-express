@@ -1,0 +1,11 @@
+components:
+  schemas:
+    UserId:
+      name: user
+      in: path
+      description: User `id`
+      required: true
+      schema:
+        type: integer
+        example: 1
+        
