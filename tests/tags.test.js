@@ -9,12 +9,9 @@ beforeAll(async () => {
     .send({ email: "root@gmail.com", password: "123456789" }); // pc: 123456789; laptop: 123456qwerty
 
   authToken = loginResponse.body.token;
-
-  console.log(loginResponse.body);
-  console.log(authToken, "auth token");
 });
 
-describe("Catalog WarningTypes Tests", () => {
+describe("Catalog Tags Tests", () => {
   let response;
 
   beforeAll(async () => {
@@ -33,12 +30,12 @@ describe("Catalog WarningTypes Tests", () => {
     expect(responseData.items).toBeInstanceOf(Array);
     expect(responseData.items).not.toHaveLength(0);
     
-    responseData.items.forEach((warningType) => {
-      expect(warningType).toHaveProperty('id');
-      expect(warningType).toHaveProperty('name');
-      expect(warningType).toHaveProperty('description');
-      expect(warningType).toHaveProperty('createdAt');
-      expect(warningType).toHaveProperty('updatedAt');
+    responseData.items.forEach((tag) => {
+      expect(tag).toHaveProperty('id');
+      expect(tag).toHaveProperty('name');
+      expect(tag).toHaveProperty('description');
+      expect(tag).toHaveProperty('createdAt');
+      expect(tag).toHaveProperty('updatedAt');
     });
   });
 });
